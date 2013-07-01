@@ -13,5 +13,5 @@
 *.a
 
 # VS2012 User Files
-*..user
+*.user
 *.sdf
