@@ -80,6 +80,33 @@ int plugin_mysql_errno(HSQUIRRELVM vm)
 	return 1;
 }
 
+int plugin_mysql_error(HSQUIRRELVM vm)
+{
+	int id;
+
+	MIN_PARAMS(1, "mysql_error");
+	GET_INTEGER(1, id);
+
+	GRAB_HANDLE(id);
+
+	if (handle == NULL || handle->getHandleId() == INVALID_MYSQL_HANDLE)
+	{
+		sq_pushinteger(vm, 0);
+		return 1;
+	}
+
+	const char* error = handle->getLastErrorString();
+
+	if (error == NULL)
+	{
+		sq_pushinteger(vm, 0);
+		return 1;
+	}
+
+	sq_pushstring(vm, error, strlen(error));
+	return 1;
+}
+
 int plugin_mysql_ping(HSQUIRRELVM vm)
 {
 	int id;

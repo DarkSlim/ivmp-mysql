@@ -51,6 +51,12 @@ public:
 	unsigned int getLastError();
 
 	/*
+		Returns the error message of the last error.
+		If it returns 0, no error occurred.
+	*/
+	const char* getLastErrorString();
+
+	/*
 		Returns 0 if connection is still active, non-zero on error.
 	*/
 	int ping();

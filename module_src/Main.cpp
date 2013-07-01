@@ -55,6 +55,7 @@ EXPORT void ScriptLoad(HSQUIRRELVM vm)
 	RegisterFunction(vm, "mysql_connect",                    plugin_mysql_connect);
 	RegisterFunction(vm, "mysql_close",                      plugin_mysql_close);
 	RegisterFunction(vm, "mysql_errno",                      plugin_mysql_errno);
+	RegisterFunction(vm, "mysql_error",                      plugin_mysql_error);
 	RegisterFunction(vm, "mysql_ping",                       plugin_mysql_ping);
 	RegisterFunction(vm, "mysql_escape_string",              plugin_mysql_escape_string);
 	RegisterFunction(vm, "mysql_free_escaped_string",        plugin_mysql_free_escaped_string);

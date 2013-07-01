@@ -87,6 +87,14 @@ unsigned int MySQLHandle::getLastError()
 	return mysql_errno(m_conn);
 }
 
+const char* MySQLHandle::getLastErrorString()
+{
+	if (!isValid())
+		return NULL;
+
+	return mysql_error(m_conn);
+}
+
 int MySQLHandle::ping()
 {
 	if (!isValid())

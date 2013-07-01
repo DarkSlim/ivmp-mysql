@@ -80,6 +80,8 @@ int plugin_mysql_close(HSQUIRRELVM vm);
 
 int plugin_mysql_errno(HSQUIRRELVM vm);
 
+int plugin_mysql_error(HSQUIRRELVM vm);
+
 int plugin_mysql_ping(HSQUIRRELVM vm);
 
 int plugin_mysql_escape_string(HSQUIRRELVM vm);
