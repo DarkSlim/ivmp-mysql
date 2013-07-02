@@ -178,40 +178,6 @@ int plugin_mysql_query(HSQUIRRELVM vm)
 	return 1;
 }
 
-int plugin_mysql_query_callback(HSQUIRRELVM vm)
-{
-	// Function structure:
-	// Callback(query[], error, extraId, connectionHandle)
-
-	int id;
-	const char* query;
-	SQUserPointer callback;
-	int extraId = -1;
-
-	MIN_PARAMS(3, "mysql_query_callback");
-	GET_INTEGER(1, id);
-	GET_STRING(2, query);
-	GET_USERPOINTER(3, callback);
-
-	if (GET_PARAMCOUNT() >= 4)
-		GET_INTEGER(4, extraId);
-
-	GRAB_HANDLE(id);
-	CHECK_HANDLE(handle);
-
-	int error = handle->executeQuery(query);
-	RELEASE_HANDLE(id);
-
-	sq_pushuserpointer(vm, callback);
-	sq_pushstring(vm, query, strlen(query));
-	sq_pushinteger(vm, error);
-	sq_pushinteger(vm, extraId);
-	sq_pushinteger(vm, id);
-	sq_call(vm, 5, false, true);
-
-	return 0;
-}
-
 int plugin_mysql_store_result(HSQUIRRELVM vm)
 {
 	int id;

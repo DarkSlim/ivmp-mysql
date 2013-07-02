@@ -39,7 +39,7 @@
 
 
 #define GET_PARAMCOUNT() \
-	sq_gettop(vm) - 1
+	(sq_gettop(vm) - 1)
 
 #define GET_STRING(idx, to) \
 	sq_getstring(vm, idx + 1, &to)
@@ -89,8 +89,6 @@ int plugin_mysql_escape_string(HSQUIRRELVM vm);
 int plugin_mysql_free_escaped_string(HSQUIRRELVM vm);
 
 int plugin_mysql_query(HSQUIRRELVM vm);
-
-int plugin_mysql_query_callback(HSQUIRRELVM vm);
 
 int plugin_mysql_store_result(HSQUIRRELVM vm);
 
