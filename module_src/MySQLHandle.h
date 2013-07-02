@@ -121,6 +121,11 @@ public:
 	*/
 	void freeEscapedString();
 
+	/*
+		Returns the insert ID (mysql_insert_id) if one is available, otherwise -1.
+	*/
+	int getInsertId();
+
 private:
 	MySQLHandle(const char* host, const char* username, const char* password, const char* database, bool enableMT, int port);
 	~MySQLHandle();

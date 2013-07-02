@@ -64,13 +64,15 @@ EXPORT void ScriptLoad(HSQUIRRELVM vm)
 	RegisterFunction(vm, "mysql_free_result",                plugin_mysql_free_result);
 	RegisterFunction(vm, "mysql_num_rows",                   plugin_mysql_num_rows);
 	RegisterFunction(vm, "mysql_num_fields",                 plugin_mysql_num_fields);
-	//RegisterFunction(vm, "mysql_query_callback",             plugin_mysql_query_callback);
+	RegisterFunction(vm, "mysql_query_callback",             plugin_mysql_query_callback);
 	RegisterFunction(vm, "mysql_store_result",               plugin_mysql_store_result);
 	RegisterFunction(vm, "mysql_free_result",                plugin_mysql_free_result);
 	RegisterFunction(vm, "mysql_num_rows",                   plugin_mysql_num_rows);
 	RegisterFunction(vm, "mysql_num_fields",                 plugin_mysql_num_fields);
 	RegisterFunction(vm, "mysql_fetch_row",                  plugin_mysql_fetch_row);
 	RegisterFunction(vm, "mysql_fetch_field_row",            plugin_mysql_fetch_field_row);
+	RegisterFunction(vm, "mysql_affected_rows",              plugin_mysql_affected_rows);
+	RegisterFunction(vm, "mysql_insert_id",                  plugin_mysql_insert_id);
 }
 
 EXPORT void ScriptUnload(HSQUIRRELVM vm)

@@ -180,24 +180,34 @@ int plugin_mysql_query(HSQUIRRELVM vm)
 
 int plugin_mysql_query_callback(HSQUIRRELVM vm)
 {
+	// Function structure:
+	// Callback(query[], error, extraId, connectionHandle)
+
 	int id;
 	const char* query;
 	SQUserPointer callback;
+	int extraId = -1;
 
 	MIN_PARAMS(3, "mysql_query_callback");
 	GET_INTEGER(1, id);
 	GET_STRING(2, query);
 	GET_USERPOINTER(3, callback);
 
+	if (GET_PARAMCOUNT() >= 4)
+		GET_INTEGER(4, extraId);
+
 	GRAB_HANDLE(id);
 	CHECK_HANDLE(handle);
 
-	int returnValue = handle->executeQuery(query);
+	int error = handle->executeQuery(query);
 	RELEASE_HANDLE(id);
 
 	sq_pushuserpointer(vm, callback);
-	sq_pushinteger(vm, returnValue);
-	sq_call(vm, 2, false, true);
+	sq_pushstring(vm, query, strlen(query));
+	sq_pushinteger(vm, error);
+	sq_pushinteger(vm, extraId);
+	sq_pushinteger(vm, id);
+	sq_call(vm, 5, false, true);
 
 	return 0;
 }
@@ -315,5 +325,39 @@ int plugin_mysql_fetch_field_row(HSQUIRRELVM vm)
 	}
 
 	sq_pushstring(vm, data, strlen(data));
+	return 1;
+}
+
+int plugin_mysql_affected_rows(HSQUIRRELVM vm)
+{
+	int id;
+
+	MIN_PARAMS(1, "mysql_affected_rows");
+	GET_INTEGER(1, id);
+
+	GRAB_HANDLE(id);
+	CHECK_HANDLE(handle);
+
+	int rows = handle->getQueryAffectedRows();
+	RELEASE_HANDLE(id);
+
+	sq_pushinteger(vm, rows);
+	return 1;
+}
+
+int plugin_mysql_insert_id(HSQUIRRELVM vm)
+{
+	int id;
+
+	MIN_PARAMS(1, "mysql_insert_id");
+	GET_INTEGER(1, id);
+
+	GRAB_HANDLE(id);
+	CHECK_HANDLE(handle);
+
+	int insertId = handle->getInsertId();
+	RELEASE_HANDLE(id);
+
+	sq_pushinteger(vm, insertId);
 	return 1;
 }

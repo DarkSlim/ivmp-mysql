@@ -186,6 +186,9 @@ const char* MySQLHandle::fetchFieldFromRow(unsigned int fieldIndex)
 
 char* MySQLHandle::escapeString(const char* string)
 {
+	if (!isValid())
+		return NULL;
+
 	if (m_escapedString == NULL)
 		freeEscapedString(); // assume the user is potentially retarded
 
@@ -202,4 +205,12 @@ void MySQLHandle::freeEscapedString()
 		delete m_escapedString;
 		m_escapedString = NULL;
 	}
+}
+
+int MySQLHandle::getInsertId()
+{
+	if (!isValid())
+		return NULL;
+
+	return static_cast<int>(mysql_insert_id(m_conn));
 }

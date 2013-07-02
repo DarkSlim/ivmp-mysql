@@ -104,4 +104,8 @@ int plugin_mysql_fetch_row(HSQUIRRELVM vm);
 
 int plugin_mysql_fetch_field_row(HSQUIRRELVM vm);
 
+int plugin_mysql_affected_rows(HSQUIRRELVM vm);
+
+int plugin_mysql_insert_id(HSQUIRRELVM vm);
+
 #endif
