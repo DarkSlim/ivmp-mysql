@@ -106,4 +106,6 @@ int plugin_mysql_affected_rows(HSQUIRRELVM vm);
 
 int plugin_mysql_insert_id(HSQUIRRELVM vm);
 
+int plugin_mysql_query_callback(HSQUIRRELVM vm);
+
 #endif

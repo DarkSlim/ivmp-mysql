@@ -327,3 +327,51 @@ int plugin_mysql_insert_id(HSQUIRRELVM vm)
 	sq_pushinteger(vm, insertId);
 	return 1;
 }
+
+int plugin_mysql_query_callback(HSQUIRRELVM vm)
+{
+	// function queryCallback(connectionHandle, query, error, extraId)
+
+	int id;
+	const char* query;
+	SQUserPointer func;
+	int extraId = -1;
+
+	MIN_PARAMS(3, "mysql_query_callback");
+	
+	// Squirrel doesn't like the extraId being last so we have to do this in a weird way..
+	
+	// For functions without an extraId the function call should look like this:
+	//		mysql_query_callback(id, "SELECT * FROM accounts", queryCallback);
+	// But when an extraId is present:
+	//		mysql_query_callback(id, "SELECT * FROM accounts", extraId, queryCallback);
+
+	if (GET_PARAMCOUNT() == 3) // without extraId
+	{
+		GET_INTEGER(1, id);
+		GET_STRING(2, query);
+		GET_USERPOINTER(3, func);
+	}
+	else // with extraId
+	{
+		GET_INTEGER(1, id);
+		GET_STRING(2, query);
+		GET_INTEGER(3, extraId);
+		GET_USERPOINTER(4, func);
+	}
+
+	GRAB_HANDLE(id);
+	CHECK_HANDLE(handle);
+
+	int error = handle->executeQuery(query);
+	RELEASE_HANDLE(id);
+
+	sq_pushuserpointer(vm, func);
+	sq_pushinteger(vm, id);
+	sq_pushstring(vm, query, strlen(query));
+	sq_pushinteger(vm, error);
+	sq_pushinteger(vm, extraId);
+	sq_call(vm, 5, false, true);
+
+	return 0;
+}
